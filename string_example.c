@@ -56,18 +56,26 @@ int main() {
   vector_insert(string_vec, 2, "second");
   vector_insert(string_vec, 5, "kostas");
   string_vec->print(string_vec);
+  printf("--------------------------------\n");
+  printf("--------------------------------\n");
+  shift_left(string_vec);
+  string_vec->print(string_vec);
+  printf("--------------------------------\n");
+  printf("--------------------------------\n");
+  shift_left(string_vec);
+  string_vec->print(string_vec);
 
-  int found = 0;
-  vector_find(string_vec, "kostas", &found);
-  printf("found at position: %d\n", found);
-
-  void *found_str = malloc(string_vec->datatype_size);
-  vector_get(string_vec, found, &found_str);
-
-  if (found_str != NULL) {
-    printf("found at index: %d, %s\n", found, *(char **)found_str);
-  }
-
+  //  int found = 0;
+  //  vector_find(string_vec, "kostas", &found);
+  //  printf("found at position: %d\n", found);
+  //
+  //  void *found_str = malloc(string_vec->datatype_size);
+  //  vector_get(string_vec, found, &found_str);
+  //
+  //  if (found_str != NULL) {
+  //    printf("found at index: %d, %s\n", found, *(char **)found_str);
+  //  }
+  //
   string_vec->free_vec(string_vec);
 
   return 0;

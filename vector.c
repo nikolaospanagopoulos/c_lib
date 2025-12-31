@@ -20,6 +20,26 @@ int get_size(struct vector *vec, size_t *size) {
   return 0;
 }
 
+int shift_left(struct vector *vec) {
+  if (vec == NULL) {
+    return -EINVAL;
+  }
+  void *first = malloc(vec->datatype_size);
+  if (first == NULL) {
+    return -ENOMEM;
+  }
+  memcpy(first, vec->memory, vec->datatype_size);
+  memmove((char *)vec->memory, (char *)vec->memory + vec->datatype_size,
+          (vec->size - 1) * vec->datatype_size);
+
+  memcpy((char *)vec->memory + (vec->datatype_size * (vec->size - 1)), first,
+         vec->datatype_size);
+
+  free(first);
+
+  return 0;
+}
+
 static int vector_expand(struct vector *vec) {
   size_t new_capacity;
   void *new_allocated_mem;

@@ -26,3 +26,4 @@ int vector_insert(struct vector *vec, size_t position, void *to_copy);
 int vector_find(struct vector *vec, void *to_find, int *index);
 int vector_get(struct vector *vec, size_t index, void **result);
 int get_size(struct vector *vec, size_t *size);
+int shift_left(struct vector *vec);
