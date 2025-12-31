@@ -64,6 +64,12 @@ int main() {
   printf("--------------------------------\n");
   shift_left(string_vec);
   string_vec->print(string_vec);
+  printf("---------------SHIFT RIGHT-----------------\n");
+  shift_right(string_vec);
+  string_vec->print(string_vec);
+  printf("---------------SHIFT RIGHT-----------------\n");
+  shift_right(string_vec);
+  string_vec->print(string_vec);
 
   //  int found = 0;
   //  vector_find(string_vec, "kostas", &found);

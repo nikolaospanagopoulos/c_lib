@@ -27,3 +27,4 @@ int vector_find(struct vector *vec, void *to_find, int *index);
 int vector_get(struct vector *vec, size_t index, void **result);
 int get_size(struct vector *vec, size_t *size);
 int shift_left(struct vector *vec);
+int shift_right(struct vector *vec);
