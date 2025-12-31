@@ -1,5 +1,7 @@
 #include "vector.h"
+#include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 void vector_free(struct vector *vec) {
   for (int i = 0; i < vec->size; i++) {
@@ -9,12 +11,21 @@ void vector_free(struct vector *vec) {
   free(vec->memory);
   free(vec);
 }
-enum VECTOR_ERRORS copy_fn(void *dest, void *src) {
+bool find(void *el1, void *el2) {
+  char *str1 = *(char **)el1;
+  char *str2 = (char *)el2;
+
+  if (strlen(str1) != strlen(str2)) {
+    return false;
+  }
+  return strncmp(str1, str2, strlen(str1)) == 0;
+}
+int copy_fn(void *dest, void *src) {
   char **d = dest;
   *d = malloc(strlen(src) + 1);
   strncpy(*d, (char *)src, strlen((char *)src));
   (*d)[strlen(src)] = '\0';
-  return OK;
+  return 0;
 }
 void print_vector_elements_char(struct vector *vec) {
 
@@ -26,10 +37,14 @@ void print_vector_elements_char(struct vector *vec) {
 int main() {
 
   struct vector *string_vec;
+  // initialize
   vector_init(&string_vec, 5, sizeof(char *));
+  // set function pointers
   string_vec->free_vec = vector_free;
-  char *name = "nikos";
+  string_vec->compare_func = find;
   string_vec->copy = copy_fn;
+
+  char *name = "nikos";
   string_vec->print = print_vector_elements_char;
   string_vec->push(string_vec, name);
   string_vec->push(string_vec, "2e2e2e21e2e2e2e2e2");
@@ -41,7 +56,17 @@ int main() {
   vector_insert(string_vec, 2, "second");
   vector_insert(string_vec, 5, "kostas");
   string_vec->print(string_vec);
-  printf("size: %lu\n", string_vec->get_size(string_vec));
+
+  int found = 0;
+  vector_find(string_vec, "kostas", &found);
+  printf("found at position: %d\n", found);
+
+  void *found_str = malloc(string_vec->datatype_size);
+  vector_get(string_vec, found, &found_str);
+
+  if (found_str != NULL) {
+    printf("found at index: %d, %s\n", found, *(char **)found_str);
+  }
 
   string_vec->free_vec(string_vec);
 

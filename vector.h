@@ -4,32 +4,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum VECTOR_ERRORS {
-  OK = 0,
-  ALLOC_ERROR,
-  OUT_OF_BOUNDS_ERROR,
-  VECTOR_EMPTY,
-  VECTOR_NULL_PTR,
-  NOT_FOUND,
-  FUNCTION_MISSING,
-  NULL_PTR
-};
 struct vector {
   size_t capacity;
   void *memory;
   size_t datatype_size;
   size_t size;
-  enum VECTOR_ERRORS (*push)(struct vector *vec, void *to_copy);
-  size_t (*get_size)(struct vector *vec);
-  enum VECTOR_ERRORS (*copy)(void *dest, void *src);
+  int (*push)(struct vector *vec, void *to_copy);
+  int (*get_size)(struct vector *vec, size_t *size);
+  int (*copy)(void *dest, void *src);
   void (*free_vec)(struct vector *vec);
   void (*print)(struct vector *vec);
-  enum VECTOR_ERRORS (*push_front)(struct vector *vec, void *to_copy);
+  int (*push_front)(struct vector *vec, void *to_copy);
+  bool (*compare_func)(void *element1, void *element2);
 };
-static enum VECTOR_ERRORS vector_expand(struct vector *vec);
-enum VECTOR_ERRORS vector_push_front(struct vector *vec, void *to_copy);
-enum VECTOR_ERRORS vector_push(struct vector *vec, void *to_copy);
-enum VECTOR_ERRORS vector_init(struct vector **vec, size_t capacity,
-                               size_t datatype_size);
-enum VECTOR_ERRORS vector_insert(struct vector *vec, int position,
-                                 void *to_copy);
+static int vector_expand(struct vector *vec);
+int vector_push_front(struct vector *vec, void *to_copy);
+int vector_push(struct vector *vec, void *to_copy);
+int vector_init(struct vector **vec, size_t capacity, size_t datatype_size);
+int vector_insert(struct vector *vec, size_t position, void *to_copy);
+
+int vector_find(struct vector *vec, void *to_find, int *index);
+int vector_get(struct vector *vec, size_t index, void **result);
+int get_size(struct vector *vec, size_t *size);
