@@ -15,7 +15,7 @@ void vector_free_struct(struct vector *vec) {
   free(vec->memory);
   free(vec);
 }
-enum VECTOR_ERRORS copy_fn_str(void *dest, void *src) {
+int copy_fn_str(void *dest, void *src) {
   struct person **p = dest;
   const struct person *const s = src;
   *p = malloc(sizeof(struct person));
@@ -23,7 +23,7 @@ enum VECTOR_ERRORS copy_fn_str(void *dest, void *src) {
   (*p)->name = malloc(strlen(s->name) + 1);
   strncpy((*p)->name, s->name, strlen(s->name));
   (*p)->name[strlen(s->name)] = '\0';
-  return OK;
+  return 0;
 }
 
 void print_vector_elements_struct(struct vector *vec) {

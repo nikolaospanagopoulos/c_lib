@@ -27,12 +27,7 @@ int copy_fn(void *dest, void *src) {
   (*d)[strlen(src)] = '\0';
   return 0;
 }
-void print_vector_elements_char(struct vector *vec) {
-
-  for (size_t i = 0; i < vec->size; i++) {
-    printf("%lu:%s\n", i, *(char **)(vec->memory + (i * vec->datatype_size)));
-  }
-}
+void print_vector_elements_char(void *el) { printf("%s\n", *(char **)(el)); }
 
 int main() {
 
@@ -46,42 +41,49 @@ int main() {
 
   char *name = "nikos";
   string_vec->print = print_vector_elements_char;
-  string_vec->push(string_vec, name);
-  string_vec->push(string_vec, "2e2e2e21e2e2e2e2e2");
-  string_vec->push_front(string_vec, "2e2e2e21e2e2e2e2e2");
-  string_vec->push_front(string_vec, "nikos");
-  string_vec->push_front(string_vec, "jos");
+  vector_push_front(string_vec, name);
+  vector_push_front(string_vec, "2e2e2e21e2e2e2e2e2");
+  vector_push_front(string_vec, "2e2e2e21e2e2e2e2e2");
+  vector_push_front(string_vec, "nikos");
+  vector_push_front(string_vec, "jos");
   name = "kostas";
   vector_insert(string_vec, 0, "first");
   vector_insert(string_vec, 2, "second");
   vector_insert(string_vec, 5, "kostas");
-  string_vec->print(string_vec);
+  vector_print_rec(string_vec);
   printf("--------------------------------\n");
-  printf("--------------------------------\n");
-  shift_left(string_vec);
-  string_vec->print(string_vec);
-  printf("--------------------------------\n");
-  printf("--------------------------------\n");
-  shift_left(string_vec);
-  string_vec->print(string_vec);
-  printf("---------------SHIFT RIGHT-----------------\n");
-  shift_right(string_vec);
-  string_vec->print(string_vec);
-  printf("---------------SHIFT RIGHT-----------------\n");
-  shift_right(string_vec);
-  string_vec->print(string_vec);
+  vector_print(string_vec);
+  // string_vec->print(string_vec);
+  //  printf("--------------------------------\n");
+  //  printf("--------------------------------\n");
+  //  shift_left(string_vec);
+  //  string_vec->print(string_vec);
+  //  printf("--------------------------------\n");
+  //  printf("--------------------------------\n");
+  //  shift_left(string_vec);
+  //  string_vec->print(string_vec);
+  //  printf("---------------SHIFT RIGHT-----------------\n");
+  //  shift_right(string_vec);
+  //  string_vec->print(string_vec);
+  //  printf("---------------SHIFT RIGHT-----------------\n");
+  //  shift_right(string_vec);
+  //  string_vec->print(string_vec);
 
-  //  int found = 0;
-  //  vector_find(string_vec, "kostas", &found);
-  //  printf("found at position: %d\n", found);
-  //
-  //  void *found_str = malloc(string_vec->datatype_size);
-  //  vector_get(string_vec, found, &found_str);
-  //
-  //  if (found_str != NULL) {
-  //    printf("found at index: %d, %s\n", found, *(char **)found_str);
-  //  }
-  //
+  int found = 0;
+  vector_improved_search(string_vec, "kostas", &found);
+  printf("found at position: %d\n", found);
+
+  void *found_str = malloc(string_vec->datatype_size);
+  vector_get(string_vec, found, &found_str);
+
+  if (found_str != NULL) {
+    printf("found at index: %d, %s\n", found, *(char **)found_str);
+    free(found_str);
+  }
+
+  printf("--------------------------------\n");
+  delete_element_by_index(string_vec, string_vec->size - 1);
+  vector_print(string_vec);
   string_vec->free_vec(string_vec);
 
   return 0;
